@@ -316,6 +316,147 @@ const quizzes = [
 			},
 		],
 	},
+	{
+		title: "World Geography Quiz",
+		slug: "world-geography-quiz",
+		description:
+			"Explore continents, oceans, landmarks, and the countries of the world.",
+		category: "General Knowledge",
+		difficulty: "Beginner" as const,
+		durationMinutes: 7,
+		featured: false,
+		questions: [
+			{
+				questionText: "Which is the largest ocean on Earth?",
+				options: ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean", "Arctic Ocean"],
+				correctAnswer: 2,
+				explanation: "The Pacific Ocean is the largest and deepest ocean.",
+				points: 10,
+			},
+			{
+				questionText: "Which continent is home to the Sahara Desert?",
+				options: ["Asia", "Africa", "South America", "Australia"],
+				correctAnswer: 1,
+				explanation: "The Sahara stretches across much of northern Africa.",
+				points: 10,
+			},
+			{
+				questionText: "What is the capital city of Japan?",
+				options: ["Seoul", "Beijing", "Bangkok", "Tokyo"],
+				correctAnswer: 3,
+				explanation: "Tokyo is the capital and largest city of Japan.",
+				points: 10,
+			},
+			{
+				questionText: "Which river flows through Egypt?",
+				options: ["Amazon", "Danube", "Nile", "Yangtze"],
+				correctAnswer: 2,
+				explanation: "The Nile flows north through Egypt to the Mediterranean Sea.",
+				points: 10,
+			},
+			{
+				questionText: "Mount Everest is part of which mountain range?",
+				options: ["Andes", "Alps", "Rockies", "Himalayas"],
+				correctAnswer: 3,
+				explanation: "Mount Everest is located in the Himalayas.",
+				points: 10,
+			},
+		],
+	},
+	{
+		title: "Science Foundations",
+		slug: "science-foundations",
+		description:
+			"Test your understanding of biology, chemistry, physics, and our planet.",
+		category: "Science",
+		difficulty: "Intermediate" as const,
+		durationMinutes: 8,
+		featured: false,
+		questions: [
+			{
+				questionText: "Which gas do plants absorb during photosynthesis?",
+				options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
+				correctAnswer: 1,
+				explanation: "Plants use carbon dioxide, water, and light to make sugars.",
+				points: 10,
+			},
+			{
+				questionText: "What is the chemical symbol for gold?",
+				options: ["Ag", "Gd", "Au", "Go"],
+				correctAnswer: 2,
+				explanation: "Gold's chemical symbol is Au, from the Latin word aurum.",
+				points: 10,
+			},
+			{
+				questionText: "What force keeps planets in orbit around the Sun?",
+				options: ["Magnetism", "Friction", "Gravity", "Buoyancy"],
+				correctAnswer: 2,
+				explanation: "The Sun's gravitational attraction keeps planets in orbit.",
+				points: 10,
+			},
+			{
+				questionText: "Which part of a cell contains most of its genetic material?",
+				options: ["Nucleus", "Cell membrane", "Ribosome", "Cytoplasm"],
+				correctAnswer: 0,
+				explanation: "In most eukaryotic cells, DNA is primarily stored in the nucleus.",
+				points: 10,
+			},
+			{
+				questionText: "At sea level, what is the approximate boiling point of water?",
+				options: ["0°C", "50°C", "100°C", "150°C"],
+				correctAnswer: 2,
+				explanation: "Pure water boils at approximately 100°C at standard pressure.",
+				points: 10,
+			},
+		],
+	},
+	{
+		title: "World History Essentials",
+		slug: "world-history-essentials",
+		description:
+			"Review key events, inventions, and civilizations from world history.",
+		category: "History",
+		difficulty: "Beginner" as const,
+		durationMinutes: 7,
+		featured: false,
+		questions: [
+			{
+				questionText: "The ancient Olympic Games began in which civilization?",
+				options: ["Roman", "Greek", "Persian", "Egyptian"],
+				correctAnswer: 1,
+				explanation: "The ancient Olympic Games were held in Olympia in ancient Greece.",
+				points: 10,
+			},
+			{
+				questionText: "Which invention is Johannes Gutenberg best known for in Europe?",
+				options: ["The compass", "The telescope", "The printing press", "The steam engine"],
+				correctAnswer: 2,
+				explanation: "Gutenberg's movable-type printing press helped books spread widely.",
+				points: 10,
+			},
+			{
+				questionText: "The Great Wall is a historic landmark in which country?",
+				options: ["India", "China", "Japan", "Mongolia"],
+				correctAnswer: 1,
+				explanation: "The Great Wall is a series of fortifications in China.",
+				points: 10,
+			},
+			{
+				questionText: "Which civilization built the city of Machu Picchu?",
+				options: ["Maya", "Aztec", "Inca", "Olmec"],
+				correctAnswer: 2,
+				explanation: "Machu Picchu was built by the Inca in the Andes.",
+				points: 10,
+			},
+			{
+				questionText: "The Renaissance began in which European country?",
+				options: ["Italy", "Norway", "Portugal", "Poland"],
+				correctAnswer: 0,
+				explanation: "The Renaissance began in Italian city-states before spreading across Europe.",
+				points: 10,
+			},
+		],
+	},
 ];
 
 async function seed() {
@@ -349,7 +490,7 @@ async function seed() {
 			item.questions.map((question, order) => ({ ...question, quizId: quiz._id, order })),
 		);
 	}
-	console.log("Seeded 3 quizzes: Beginner 3, Intermediate 10, Advanced 15.");
+	console.log("Seeded 6 quizzes: Beginner 13, Intermediate 15, Advanced 15.");
 	await mongoose.disconnect();
 }
 

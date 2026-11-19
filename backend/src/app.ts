@@ -25,7 +25,8 @@ const leaderboard = new LeaderboardService();
 const profiles = new ProfileService();
 
 app.use(helmet());
-app.use(cors({ origin: process.env.FRONTEND_URL ?? "https://quiz-mocha-phi.vercel.app", credentials: true }));
+const frontendOrigin = process.env.FRONTEND_URL?.trim().replace(/\/+$/, "") || "https://quiz-mocha-phi.vercel.app";
+app.use(cors({ origin: frontendOrigin, credentials: true }));
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 app.use("/api/auth", rateLimit({ windowMs: 15 * 60 * 1000, limit: 30, standardHeaders: true, legacyHeaders: false }));
@@ -36,7 +37,8 @@ const parse = <T>(schema: z.ZodType<T>, value: unknown): T => {
   return result.data;
 };
 const cookie = (token: string, res: Response) => {
-  res.cookie("quizmaster_token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", maxAge: 7 * 24 * 60 * 60 * 1000, path: "/" });
+  const isProduction = process.env.NODE_ENV === "production";
+  res.cookie("quizmaster_token", token, { httpOnly: true, secure: isProduction, sameSite: isProduction ? "none" : "lax", maxAge: 7 * 24 * 60 * 60 * 1000, path: "/" });
 };
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
