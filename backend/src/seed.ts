@@ -461,36 +461,29 @@ const quizzes = [
 
 async function seed() {
 	await connectDatabase();
-	const oldQuizzes = await Quiz.find({ slug: { $in: ["javascript-fundamentals", "general-knowledge", "science-essentials"] } }).select("_id");
-	await Question.deleteMany({ quizId: { $in: oldQuizzes.map((quiz) => quiz._id) } });
-	await Quiz.deleteMany({ slug: { $in: ["javascript-fundamentals", "general-knowledge", "science-essentials"] } });
+	let addedQuizzes = 0;
 	for (const item of quizzes) {
-		const quiz = await Quiz.findOneAndUpdate(
-			{ slug: item.slug },
-			{
-				title: item.title,
-				slug: item.slug,
-				description: item.description,
-				category: item.category,
-				difficulty: item.difficulty,
-				durationMinutes: item.durationMinutes,
-				featured: item.featured,
-				published: true,
-				questionCount: item.questions.length,
-			},
-			{
-				upsert: true,
-				new: true,
-				setDefaultsOnInsert: true,
-				runValidators: true,
-			},
-		);
-		await Question.deleteMany({ quizId: quiz._id });
-		await Question.insertMany(
-			item.questions.map((question, order) => ({ ...question, quizId: quiz._id, order })),
-		);
+		if (await Quiz.exists({ slug: item.slug })) continue;
+
+		const { questions, ...quizData } = item;
+		const session = await mongoose.startSession();
+		try {
+			await session.withTransaction(async () => {
+				const [quiz] = await Quiz.create(
+					[{ ...quizData, questionCount: questions.length, published: true }],
+					{ session },
+				);
+				await Question.insertMany(
+					questions.map((question, order) => ({ ...question, quizId: quiz._id, order })),
+					{ session },
+				);
+			});
+			addedQuizzes += 1;
+		} finally {
+			await session.endSession();
+		}
 	}
-	console.log("Seeded 6 quizzes: Beginner 13, Intermediate 15, Advanced 15.");
+	console.log(`Added ${addedQuizzes} quizzes; ${quizzes.length - addedQuizzes} already existed.`);
 	await mongoose.disconnect();
 }
 
