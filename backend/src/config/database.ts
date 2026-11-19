@@ -1,8 +1,14 @@
+
 import mongoose from "mongoose";
 
-export async function connectDatabase() {
-  const uri = process.env.MONGODB_URI;
-  if (!uri) throw new Error("MONGODB_URI is required to start the API.");
-  await mongoose.connect(uri);
-  console.log("Connected to MongoDB");
+export async function connectDatabase(): Promise<void> {
+  const mongoUri = process.env.MONGODB_URI;
+
+  if (!mongoUri) {
+    throw new Error("MONGODB_URI is missing from environment variables");
+  }
+
+  await mongoose.connect(mongoUri);
+
+  console.log("MongoDB database connected");
 }
